@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const ErrorHandler = require('../errors/ErrorHandler');
+const {ErrorHandler} = require('../errors/ErrorHandler');
 
 module.exports = {
     hash: (password) => bcrypt.hash(password, 10),
@@ -10,5 +10,6 @@ module.exports = {
         if (!isPasswordMatched) {
             throw new ErrorHandler(400, 'Email ot password is wrong');
         }
+        return true;
     }
 };

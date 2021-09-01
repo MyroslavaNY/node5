@@ -1,23 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const {PORT, MONGODB} = require('./config/variables');
+const {PORT, MONGODB} = require('./config/veriables');
 
 const app = express();
 
 mongoose.connect(MONGODB);
 
-app.get('/ping', (req, res) => res.json('Pong'));
-
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
 
-const {userRouter, carRouter} = require('./routes');
+const {userRouter, authRouter} = require('./routes');
+
+app.get('/ping', (req, res) => res.json('Pong'));
 
 app.use('/users', userRouter);
-app.use('/cars', carRouter);
-app.use('*', _notFoundError);
-app.use(_mainErrorHandler);
+app.use('/auth', authRouter);
+app.use( '*', _notFoundError );
+app.use( _mainErrorHandler );
 
 app.listen(PORT, () => {
     console.log('App listen', PORT);
@@ -39,10 +40,4 @@ function _mainErrorHandler(err, req, res, next) {
         });
 };
 
-function connectDB(){
-    mongoose.connect(`${MONGODB}`);
-    const {connect} = mongoose;
-    connect('err', (err)=>{
-        console.log(err);
-    });
-}
+

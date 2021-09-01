@@ -45,7 +45,7 @@ module.exports = {
             const { error } = userValidator.paramsUserValidator.validate(req.params);
 
             if (error) {
-                throw new ErrorHandler(400, INVALID_OPTION);
+                throw new ErrorHandler(400, 'INVALID_OPTION');
             }
 
             next();
